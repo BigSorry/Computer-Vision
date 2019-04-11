@@ -45,7 +45,7 @@ function [] = surfaceRender(pointcloud, M, Mean, img)
 
     % Grid to create surface on using meshgrid.
     % You can define the size of the grid (e.g., -500:500) 
-    ti = -500:50:500;
+    ti = -500:25:500;
     [qx,qy] = meshgrid(ti,ti);
 
     % Surface generation using TriScatteredInterp
@@ -57,19 +57,18 @@ function [] = surfaceRender(pointcloud, M, Mean, img)
     % Note: qz contains NaNs because some points in Z direction may not defined
     % This will lead to NaNs in the following calculation.
 
-
     % Reshape (qx,qy,qz) to row vectors for next step
     qxrow = reshape(qx,prod(size(qx)),1);
     qyrow = reshape(qy,prod(size(qy)),1);
     qzrow = reshape(qz,prod(size(qz)),1);
 
     % Transform to the main view using the corresponding motion / transformation matrix, M
-    q_xy =...
+    q_xy = M*[qxrow,qyrow,qzrow]';
 
     % All transformed points are normalized by mean values in advance, we have to move
     % them to the correct positions by adding corresponding mean values of each dimension.
-    q_x = ... 
-    q_y = ... 
+    q_x = q_xy(1,:) + Mean(1);
+    q_y = q_xy(2,:) + Mean(2); 
 
     % Remove NaN values in q_x and q_y
     q_x(isnan(q_x))=1;
@@ -81,21 +80,21 @@ function [] = surfaceRender(pointcloud, M, Mean, img)
 
     if(size(img,3)==3)
         % Select the corresponding r,g,b image channels
-        imgr = ...
-        imgg = ...
-        imgb = ...
+        imgr = img(:,:,1);
+        imgg = img(:,:,2);
+        imgb = img(:,:,3);
 
         % Color selection from image according to (q_y, q_x) using sub2ind
-        Cr = ...
-        Cg = ...
-        Cb = ...
- 
+        Cr = imgr(sub2ind(size(imgr),uint16(q_x),uint16(q_y)));
+        Cg = imgg(sub2ind(size(imgg),uint16(q_x),uint16(q_y)));
+        Cb = imgb(sub2ind(size(imgb),uint16(q_x),uint16(q_y)));
+
         qc(:,:,1) = reshape(Cr,size(qx));
         qc(:,:,2) = reshape(Cg,size(qy));
         qc(:,:,3) = reshape(Cb,size(qz));
     else 
         % If grayscale image, we only have 1 channel
-        C  = img(sub2ind( ... , ..., ...))
+        C  = img(sub2ind(img,q_x,q_y));
         qc = reshape(C,size(qx));
         colormap gray
     end
