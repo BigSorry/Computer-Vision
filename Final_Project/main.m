@@ -1,6 +1,5 @@
-castle = './model_castle/';
-teddy = './TeddyBearPNG/';
+imagemap = './modelcastlePNG/';
+imagemap = './TeddyBearPNG/';
 
-files=dir(strcat(teddy, '*.png'));
-reconstruction_demo(teddy, files);
-
+files=dir(strcat(imagemap, '*.png'));
+reconstruction_demo(imagemap, files);

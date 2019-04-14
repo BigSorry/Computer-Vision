@@ -44,6 +44,7 @@ function [] = surfaceRender(pointcloud, M, Mean, img)
     % Grid to create surface on using meshgrid.
     % You can define the size of the grid (e.g., -500:500) 
     ti = -700:2:700;
+    %ti = -900:2:900; %For Castle
     [qx,qy] = meshgrid(ti,ti);
 
     % Surface generation using TriScatteredInterp
@@ -101,6 +102,7 @@ function [] = surfaceRender(pointcloud, M, Mean, img)
      
     % Render parameters
     axis( [-500 500 -500 500 -500 500] );
+    %axis( [-900 900 -900 900 -700 700] ); %For Castle
     daspect([1 1 1]);
     rotate3d;
 

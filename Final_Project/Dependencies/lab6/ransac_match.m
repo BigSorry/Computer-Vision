@@ -20,14 +20,14 @@ function [C, D, Matches] = ransac_match(directory)
         % Own harris
 %         next = mod(i,n) + 1;
 %         matches = getMatches(imread(strcat(directory, '/',Files(i).name)), imread(strcat(directory, '/',Files(next).name)));
-        disp('image num');
+        disp(strcat(int2str(i),' image num'));
 %         image = rgb2gray(imread(strcat(directory, '/',Files(i).name)));
 %         [coord, descriptor] = vl_sift(single(image));
-         [coord_haraff,desc_haraff,~,~] = loadFeatures(strcat(directory, '/',Files(i).name, '.haraff.sift'));
-         [coord_hesaff,desc_hesaff,~,~] = loadFeatures(strcat(directory, '/',Files(i).name, '.hesaff.sift'));
+        [coord_haraff,desc_haraff,~,~] = loadFeatures(strcat(directory, '/',Files(i).name, '.haraff.sift'));
+        [coord_hesaff,desc_hesaff,~,~] = loadFeatures(strcat(directory, '/',Files(i).name, '.hesaff.sift'));
 %         
-         coord= [coord_haraff coord_hesaff];
-         desc = [desc_haraff desc_hesaff];
+        coord= [coord_haraff coord_hesaff];
+        desc = [desc_haraff desc_hesaff];
         
         C{i} = coord(1:2, :);
         D{i} = desc;

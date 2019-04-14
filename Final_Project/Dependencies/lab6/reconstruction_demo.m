@@ -15,7 +15,7 @@ function [] = reconstruction_demo(directory, files)
         load(strcat(directory, 'Matches.mat'));
         load(strcat(directory, 'C.mat'));
     else
-        [C,D, Matches] = ransac_match(directory) 
+        [C,D, Matches] = ransac_match(directory);
         save(strcat(directory, 'Matches.mat'), 'Matches');
         save(strcat(directory, 'C.mat'), 'C');
     end
@@ -74,7 +74,7 @@ function [] = reconstruction_demo(directory, files)
         % first frame is the camera plane (view) where every point will be projected
         % Please do check if M is non-zero before selection. Otherwise, you
         % have to select another view
-        if i==1 && ~p
+        if i==8 && ~p
             M1=M(1:2,:);
             MeanFrame1=sum(X,2)/numPoints;
         end
