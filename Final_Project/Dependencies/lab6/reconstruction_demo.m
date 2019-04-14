@@ -74,7 +74,7 @@ function [] = reconstruction_demo(directory, files)
         % first frame is the camera plane (view) where every point will be projected
         % Please do check if M is non-zero before selection. Otherwise, you
         % have to select another view
-        if i==8 && ~p
+        if i==1 && ~p
             M1=M(1:2,:);
             MeanFrame1=sum(X,2)/numPoints;
         end
